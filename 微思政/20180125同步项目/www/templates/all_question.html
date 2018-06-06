@@ -1,0 +1,244 @@
+<!--展示课程题库的页面-->
+<!--顶部导航栏 -->
+<div class="title">
+    <div>
+        <div class="logo">微思政|{{nowCourseName}}</div>
+        <div class="nav">
+            <div class="about active" id="questionButton" ng-click="routeToAllQuestion()">课程题库</div>
+            <div class="work" id="testButton" ng-click="routeToAllTest()">课程测试</div>
+            <div class="more">更多</div>
+        </div>
+    </div>
+</div>
+<!--页面主体-->
+<div id="main_left">
+    <div class="left_nav">
+        <div style="color: black;font-size: 14px">题目分组</div>
+    </div>
+    <div class="left_list">
+        <div style="padding: 10px 48px"><span>所有分组</span><span style="float: right">{{all_groups.length}}</span></div>
+        <ul>
+            <li class="left_list_li" ng-repeat="group in all_groups track by $index">
+                <a ui-sref-active="select" ng-click="getQuestionByGroupId(group.id)">
+                    <span class="list_style">{{$index+1}}</span>
+                    <span class="list_name" id="{{$index}}">{{group.group_name}}</span>
+                    <span class="list_num">{{group.nums}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="main_right">
+    <div class="right_nav">
+        <span>从其他课堂拷贝</span>
+        <span>批量录入</span>
+        <span class="operation">
+            <button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                添加测试
+            </button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#addQuestion">
+                添加题目
+            </button>
+        </span>
+
+    </div>
+    <div id="right_wrap">
+        <div class="right_list" ng-repeat="(k,question) in all_questions track by $index">
+            <div class="right_list_left">
+                <div class="right_list_left_top">
+                    <div>{{$index+1}}</div>
+                    <div>{{question.typeName}}</div>
+                </div>
+                <div class="right_list_left_j"></div>
+            </div>
+            <div class="right_list_right">
+                <div class="main_top">
+                    <span style="margin-left: 20px">{{question.title}}</span> <span
+                        style="position: absolute;bottom: 20px;right: 194px;z-index: 10;cursor: pointer;line-height: 20px;"><input
+                        type="checkbox" ng-model="is_show[$index]">显示答案</span>
+                    <!--以下添加了“添加到测试”和“从测试中移除”下拉列表-->
+                    <div class="operation">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                                    ng-click="getOutTest(question.id)">
+                                添加到测试..
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-repeat="test in allOutTest[question.id] track by $index"
+                                    ng-click="addQuestionToTest(question.id,test.testId)"><a class="btn">{{test.testName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                                    ng-click="getInTest(question.id)">
+                                从测试中删除..
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-repeat="test in allInTest[question.id] track by $index"
+                                    ng-click="deleteQuestionFromTest(question.id,test.testId)"><a class="btn">{{test.testName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="main_list">
+                    <ul>
+                        <li ng-repeat="option in question.options">
+                            <div type="{{question.selectType}}">
+                                <span class="input" status="check"></span><span
+                                    class="content">{{option.content}}</span><span
+                                    ng-show="show_answer(is_show[k],option.is_true)"><img src="../img/style/ok.png"
+                                                                                          style=" width: 20px;margin-top: -5px;margin-left: 10px;"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 添加测试模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        添加测试
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="testName">测试名称</label>
+                        <input class="form-control" id="testName" ng-model="testName" placeholder="请输入测试名称">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="description">描述</label>
+                        <textarea class="form-control" ng-model="description" id="description"
+                                  placeholder="请输入描述信息..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-success" ng-click="addTest()" data-dismiss="modal">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+    <!-- 添加测试模态框（Modal） -->
+    <div class="modal fade" id="addQuestion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        添加题目
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2">
+                                <label class="control-label" for="title">题目：</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" ng-model="title" id="title" placeholder="请输入题目..."></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!--<div class="col-sm-offset-1 col-sm-2">
+                                <label class="control-label" for="type">题型：</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="form-control"  ng-model="type" id="type">
+                                    <option value="0" selected="selected">单选题</option>
+                                    <option value="1">多选题</option>
+                                </select>
+                            </div>-->
+
+                            <!--选择分组-->
+                            <div class="col-sm-offset-1 col-sm-2">
+                                <label class="control-label" for="group">分组：</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <select class="form-control"  ng-model="group" id="group">
+                                    <option ng-repeat="group in all_groups" value="{{group.id}}">{{group.group_name}}</option>
+                                </select>
+                            </div>
+
+                            <!--是否正确-->
+                            <div class="col-sm-2">
+                                <label class="control-label">是否正确</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2">
+                                <label class="control-label" for="option1">选项1</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" ng-model="option1" id="option1" placeholder="请输入选项">
+                            </div>
+                            <div class="col-sm-1">
+                                <input name="is_true" type="checkbox" value="1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2">
+                                <label class="control-label" for="option2">选项2</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" ng-model="option2" id="option2" placeholder="请输入选项">
+                            </div>
+                            <div class="col-sm-1">
+                                <input name="is_true" type="checkbox" value="2">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2">
+                                <label class="control-label" for="option3">选项3</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" ng-model="option3" id="option3" placeholder="请输入选项">
+                            </div>
+                            <div class="col-sm-1">
+                                <input name="is_true" type="checkbox" value="3">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2">
+                                <label class="control-label" for="option4">选项4</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" ng-model="option4" id="option4" placeholder="请输入选项">
+                            </div>
+                            <div class="col-sm-1">
+                                <input name="is_true" type="checkbox" value="4">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-success" ng-click="add_question()" data-dismiss="modal">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>

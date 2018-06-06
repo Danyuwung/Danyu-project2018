@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+body {
+        margin: 0px;
+        padding: 0px;
+      }
+      #container {
+        width : 600px;
+        height: 384px;
+        margin: 8px auto;
+      }
+</style>
+</head>
+
+<body>
+<div id="container"></div>
+<!--  
+    <script type="text/javascript" src="js/flotr2.ie.min.js"></script> -->
+    <!--[if IE]>
+    <script type="text/javascript" src="js/flashcanvas.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="js/flotr2.min.js"></script>
+    <script type="text/javascript">
+     (function basic_pie(container) {
+
+  var
+    d1 = [[0, 19]],
+    d2 = [[0, 1]],
+    d3 = [[0, 2]],
+    d4 = [[0, 1]],
+	d5=[[0,3]],
+	d6=[[0,1]],
+	d7=[[0,3]],
+    graph;
+  
+  graph = Flotr.draw(container, [
+    { data : d1, label : 'aaa' },
+    { data : d2, label : 'ab' },
+	 { data : d3, label : 'client3' },
+	  { data : d4, label : 'minicooper' },
+	    { data : d5, label : 'wdy' },
+    { data : d6, label : 'XP',
+      pie : {
+        explode : 50
+      }
+    },
+  { data : d7, label : '王丹煜',}
+  ], {
+    HtmlText : false,
+    grid : {
+      verticalLines : false,
+      horizontalLines : false
+    },
+    xaxis : { showLabels : false },
+    yaxis : { showLabels : false },
+    pie : {
+      show : true, 
+      explode : 6
+    },
+    mouse : { track : true },
+    legend : {
+      position : 'se',
+      backgroundColor : '#D2E8FF'
+    }
+  });
+})(document.getElementById("container"));
+    </script>
+
+</body>
+</html>

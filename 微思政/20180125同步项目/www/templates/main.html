@@ -1,0 +1,190 @@
+<!--展示所有课程的页面-->
+
+<div>
+    <div class="title">
+        <div>
+            <div class="logo">微思政</div>
+            <div class="nav">
+                <div class="about active">我的课程</div>
+                <div class="work">个人中心</div>
+                <div class="more">更多</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="main_content">
+    <div id="main_content_wrap">
+        <div class="myCourse">
+            <!--遍历-->
+            <div class="course_one" ng-repeat="course in allCourse track by $index">
+                <div class="img" style="">
+                    <img ng-src="../img/upload/{{course.coursePictureName}}"
+                         onerror="this.src='../img/upload/Lighthouse.jpg'"
+                         style="width: 100%; height: 180px;">
+                    <div class="num">No{{$index+1}}</div>
+                </div>
+                <div class="msg">
+                    <div class="msg_left">
+                        <div class="m1">
+                            <div class="tip">课程名称</div>
+                            <div class="name">{{course.courseName}}</div>
+                        </div>
+                        <div class="m2">
+                            <span></span><a>100</a>
+                        </div>
+                        <div class="m3">
+                            <div class="in">
+                                <a ui-sref-active="select" ui-sref="allQuestion({courseId:course.courseId})">
+                                    点击进入
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="msg_right">
+                        <div class="m1">
+                            <div class="write" id="editCourse" ng-click="editCourse(course.courseId)"></div>
+                            <div class="del" ng-click="deleteCourse(course.courseid)"></div>
+                        </div>
+                        <div class="m2">
+                            <span></span><a>{{course.courseTime}}</a>
+                        </div>
+                        <div class="m3"></div>
+                    </div>
+                </div>
+            </div>
+            <!--遍历-->
+            <!--下一个不是遍历的-->
+            <div class="course_one add" ng-click="getModel()">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 添加课程模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="myModalLabel">添加课程</h3>
+            </div>
+            <form method="post" role="form" class="form-horizontal" id="addCourseForm" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2 column">
+                                <label class="control-label">课程名称：</label>
+                            </div>
+                            <div class="col-sm-8 column">
+                                <input type="text" class="form-control" id="courseName" ng-model="courseName">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2 column">
+                                <label class="control-label">上课地点：</label>
+                            </div>
+                            <div class="col-sm-8 column">
+                                <input type="text" class="form-control" id="courseAddress" ng-model="courseAddress">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2 column">
+                                <label class="control-label">上课时间：</label>
+                            </div>
+                            <div class="col-sm-8 column">
+                                <input type="text" class="form-control" id="courseTime" ng-model="courseTime">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2 column">
+                                <label class="control-label">上传图片：</label>
+                            </div>
+                            <div class="col-sm-8 column">
+                                <input type="file" accept="image/png,image/gif,image/jpg,image/jpeg" id="coursePicture"
+                                       ng-model="coursePicture">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-success" data-dismiss="modal" ng-click="addCourse()">添加
+                    </button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+<!-- 添加课程模态框（Modal） -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">编辑课程</h3>
+            </div>
+            <form method="post" role="form" class="form-horizontal" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <!--编辑课程主体部分-->
+                    <div class="row clearfix">
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2 column">
+                                <label class="control-label">课程名称：</label>
+                            </div>
+                            <div class="col-sm-8 column">
+                                <input type="text" class="form-control" ng-model="nowEditCourse.courseName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2 column">
+                                <label class="control-label">上课时间：</label>
+                            </div>
+                            <div class="col-sm-8 column">
+                                <input type="text" class="form-control" ng-model="nowEditCourse.courseTime">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-1 col-sm-2 column">
+                                <label class="control-label">上课地点：</label>
+                            </div>
+                            <div class="col-sm-8 column">
+                                <input type="text" class="form-control" ng-model="nowEditCourse.courseAddress">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-success" data-dismiss="modal" ng-click="updateCourse()">更新课程
+                </button>
+            </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script>
+
+    var layout = function () {
+
+        var width = $("#main_content").width()
+        if (width > 1500) {
+            $("#main_content_wrap").css('width', 1440)
+            $("#main_content_wrap .course_one").css("width", 300)
+        } else if (width < 1500) {
+            $("#main_content_wrap").css('width', 1020)
+            $("#main_content_wrap .course_one").css("width", 280)
+        }
+        $("#main_content .line").width($("#main_content_wrap").width() - $("#main_content .name").width())
+    }
+    layout()
+    window.onresize = function () {
+        layout()
+    };
+</script>

@@ -1,0 +1,108 @@
+/*定义登录页面的样式*/
+body{
+
+}
+div.col-md-4.column{
+    background: rgba(152,255,217,0.58);
+}
+
+
+div.col-sm-offset-1.col-sm-3
+{
+    text-align: right;
+}
+#loginForm{
+    width: 100%;
+    min-height: 600px;
+    min-width: 1000px;
+    background: url(../img/style/bgbg.jpg) no-repeat center center;
+    background-size: cover;
+
+}
+.title{
+    min-width: 1000px;
+    height: 75px;
+    margin: 0 auto;
+    width: 85%;
+
+}
+#loginForm .content>div:first-child{
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.2) ;
+    background: rgba(0,0,0,0.2);
+}
+.title .logo{
+    width: 356px;
+    height: 75px;
+    float: left;
+    font-size: 36px;
+    line-height: 75px;
+    text-align: center;
+
+    /*background: url(../img/2017-11-12_205346.jpg);*/
+}
+ .title .nav{
+    height: 75px;
+    float: right;
+}
+.title .nav>div{
+    width: 90px;
+    height: 75px;
+    float: left;
+    line-height: 75px;
+    text-align: center;
+
+    margin-right: 30px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.title .nav>div:hover{
+    border-bottom: 3px solid rgb(89,158,214);
+    background: rgba(0,0,0,0.1);
+}
+.title .nav>.active{
+     border-bottom: 3px solid rgb(89,158,214);
+ }
+#loginForm .content{
+    overflow: hidden;
+
+}
+#loginForm .login_content{
+    overflow: hidden;
+}
+#form{
+    width: 300px;
+    height: 280px;
+    float: right;
+    margin-right: 15%;
+    margin-top: 100px;
+    background: rgba(255,255,255,.8);
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.4);
+    margin-bottom: 100px;
+}
+#form input{
+    width: 220px;
+    height: 40px;
+    margin-left: 40px;
+    border: 1px solid rgba(0,0,0,0.2);
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#form input{
+    margin-bottom: 30px;
+}
+#userName-label{
+    height: 70px;
+    font-size: 18px;
+    font-weight: 400;
+    margin-left: 20px;
+    line-height: 50px;
+}
+#form button{
+    width: 100px;
+    height: 36px;
+    float: right;
+    margin-right: 40px;
+    border: none;
+    background: rgb(89,158,214);
+    color: whitesmoke;
+}

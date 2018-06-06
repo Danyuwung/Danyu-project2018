@@ -1,0 +1,190 @@
+#main_content{
+    width: 100%;
+    min-width: 1000px;
+    overflow: hidden;
+    background: rgb(243,243,243);
+}
+#main_content .title{
+    width: 100%;
+    overflow: hidden;
+}
+#main_content .title>div{
+    float: left;
+}
+#main_content .title .name{
+    width: 90px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-weight: 500;
+}
+#main_content .title .name h1{
+    font-size: 18px;
+    font-weight: 500;
+}
+#main_content .line{
+    height: 1px;
+    margin-top: 30px;
+    background: rgba(0,0,0,0.15);
+}
+#main_content_wrap{
+    overflow: hidden;
+    margin: 0 auto;
+    width: 1000px;
+}
+#main_content_wrap .myCourse{
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10px;
+}
+#main_content_wrap .course_one{
+    width: 280px;
+    height: 320px;
+    float: left;
+    margin:20px 30px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+}
+#main_content_wrap .course_one:hover{
+    transform: scale(1.03);
+    box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
+}
+#main_content_wrap .course_one .img{
+    width: 100%;
+    height: 180px;
+    background: white;
+    background-size: cover!important;
+    position: relative;
+}
+#main_content_wrap .course_one .img .num{
+    width: 50px;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #ce9802;
+    text-align: center;
+    line-height: 35px;
+    font-size: 14px;
+    color: whitesmoke;
+}
+#main_content_wrap .course_one .msg{
+    width: 100%;
+    height: 140px;
+    background: white;
+}
+#main_content_wrap .course_one .msg .msg_left{
+    width: 50%;
+    height: 100%;
+    float: left ;
+}
+#main_content_wrap .course_one .msg .msg_right{
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+#main_content_wrap .course_one .m1{
+    height: 50px;
+    padding-left:20px;
+}
+#main_content_wrap .course_one .m2{
+    height: 40px;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+#main_content_wrap .course_one .m3{
+    height:40px;
+}
+#main_content_wrap .course_one .m1 .tip{
+    font-size: 12px;
+    opacity: 0.5;
+    margin-top: 10px;
+}
+#main_content_wrap .course_one .m1 .name{
+    font-size: 18px;
+    margin-top: 4px;
+    font-weight: 600;
+    opacity: 0.9;
+}
+#main_content_wrap .course_one .msg_left .m2  span{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(../img/style/per.png) no-repeat;
+    background-size: cover;
+
+}
+#main_content_wrap .course_one .msg_right .m2  span{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(../img/style/pe.png) no-repeat;
+    background-size: cover;
+    margin-top: 10px;
+
+}
+#main_content_wrap .course_one .m3 .in{
+    width: 80px;
+    height: 30px;
+    border: 1px solid rgb(234,173,4);
+    margin-left: 20px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 5px;
+    color: rgb(234,173,4);
+    cursor: pointer;
+    font-size: 13px;
+
+}
+#main_content_wrap .course_one .m3 .in:hover{
+    background: rgb(234,173,4) ;
+    color:white;
+
+
+}
+
+#main_content_wrap .course_one a{
+    text-decoration: none;
+}#main_content_wrap .course_one .msg_right .m1{
+    padding-top: 12px;
+ }
+
+#main_content_wrap .course_one .msg_right .m1 .write,#main_content_wrap .course_one .msg_right .m1 .del{
+    float: left;
+    width: 38px;
+    height: 34px;
+    background: red;
+    margin: 1px 8px;
+}
+#main_content_wrap .course_one .msg_right .m1 .write{
+    background: url(../img/style/write1.png) no-repeat;
+    background-size: cover;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#main_content_wrap .course_one .msg_right .m1 .write:hover{
+    background: url(../img/style/write.png) no-repeat;
+    background-size: cover;
+    cursor: pointer;
+    border-radius: 5px;
+
+}
+#main_content_wrap .course_one .msg_right .m1 .del{
+    background: url(../img/style/del1.png) no-repeat;
+    background-size: cover;
+    cursor: pointer;
+    border-radius: 5px;
+}
+#main_content_wrap .course_one .msg_right .m1 .del:hover{
+    background: url(../img/style/del.png) no-repeat;
+    background-size: cover;
+    cursor: pointer;
+    border-radius: 5px;
+
+}#main_content_wrap .course_one.add{
+    height:180px;
+    cursor: pointer;
+    background: url(../img/style/add.png) no-repeat;
+    background-size: cover;
+    background-position: 0 -70px;
+ }

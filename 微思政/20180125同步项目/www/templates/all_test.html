@@ -1,0 +1,290 @@
+<!--展示课程题库的页面-->
+<!--顶部导航栏 -->
+<div class="title">
+    <div>
+        <div class="logo">微思政|{{nowCourseName}}</div>
+        <div class="nav">
+            <div class="about" id="questionButton">课程题库</div>
+            <div class="work active" id="testButton">课程测试</div>
+            <div class="more">更多</div>
+        </div>
+    </div>
+</div>
+
+<!--页面主体部分-->
+<div id="main_left">
+    <div class="left_nav">
+        <div style="color: black;font-size: 14px">题目分组</div>
+    </div>
+    <div class="left_list">
+        <div style="padding: 10px 48px"><span>所有分组</span><span style="float: right">{{all_tests.length}}</span></div>
+        <ul>
+            <li class="left_list_li" ng-repeat="test in all_tests track by $index">
+                <a ui-sref-active="select" ng-click="getQuestionByTestId(test.testId)">
+                    <span class="list_style">{{$index+1}}</span>
+                    <span class="list_name" id="{{$index}}">{{test.testName}}</span>
+                    <span class="list_num">{{test.nums}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="main_right">
+    <div class="right_nav">
+        <span></span>
+        <span></span>
+        <span class="operation">
+            <button class="btn btn-success" ui-sref="visualization">测试</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#showModal">
+                 查看测试结果
+            </button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                添加测试
+            </button>
+            <button class="btn btn-success" ng-click="startAndCloseTest(nowTest.id)">
+                {{nowTest.status}}
+            </button>
+        </span>
+
+    </div>
+    <div id="right_wrap">
+        <div class="right_list" ng-repeat="question in all_questions track by $index">
+            <div class="right_list_left">
+                <div class="right_list_left_top">
+                    <div>{{$index+1}}</div>
+                    <div>{{question.typeName}}</div>
+                </div>
+                <div class="right_list_left_j"></div>
+            </div>
+            <div class="right_list_right">
+                <div class="main_top">
+                    <span style="margin-left: 20px">{{question.title}}</span>
+                    <!--以下添加了“添加到测试”和“从测试中移除”下拉列表-->
+                    <div class="operation">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                                    ng-click="getOutTest(question.id)">
+                                添加到测试..
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-repeat="test in allOutTest[question.id] track by $index"
+                                    ng-click="addQuestionToTest(question.id,test.testId)"><a class="btn">{{test.testName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                                    ng-click="getInTest(question.id)">
+                                从测试中删除..
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-repeat="test in allInTest[question.id] track by $index"
+                                    ng-click="deleteQuestionFromTest(question.id,test.testId)"><a class="btn">{{test.testName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="main_list">
+                    <ul>
+                        <li ng-repeat="option in question.options">
+                            <div type="{{question.selectType}}">
+                                <span class="input" status="check"></span><span
+                                    class="content">{{option.content}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 添加测试模态框 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        添加测试
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="testName">测试名称</label>
+                        <input class="form-control" id="testName" ng-model="testName" placeholder="请输入测试名称">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="description">描述</label>
+                        <textarea class="form-control" ng-model="description" id="description"
+                                  placeholder="请输入描述信息..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-success" ng-click="addTest()" data-dismiss="modal">
+                        提交
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+    <!--展示测试结果模态框-->
+    <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">
+                        测试结果
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <style>
+                        .axis path,
+                        .axis line{
+                            fill: none;
+                            stroke: black;
+                            shape-rendering: crispEdges;
+                        }
+
+                        .axis text {
+                            font-family: sans-serif;
+                            font-size: 11px;
+                        }
+
+                        .MyRect {
+                            fill: steelblue;
+                        }
+
+                        .MyText {
+                            fill: white;
+                            text-anchor: middle;
+                        }
+                    </style>
+                    <div id="showTestResult"></div>
+                    <script>
+                        //画布大小
+                        var width = 500;
+                        var height = 500;
+
+                        //在 body 里添加一个 SVG 画布
+                        var svg = d3.select("#showTestResult")
+                            .append("svg")
+                            .attr("width", width)
+                            .attr("height", height);
+
+                        //画布周边的空白
+                        var padding = {left:30, right:30, top:20, bottom:20};
+
+                        //定义一个数组
+                        var dataset = new Array();
+
+                        $.post("/visualization",
+                            {
+                                name:"Donald Duck",
+                                city:"Duckburg"
+                            },
+                            function(res){
+                                console.log(res);
+                                dataset = res;
+
+                                //x轴的比例尺
+                                var xScale = d3.scale.ordinal()
+                                    .domain(d3.range(dataset.length))
+                                    .rangeRoundBands([0, width - padding.left - padding.right]);
+
+//y轴的比例尺
+                                var yScale = d3.scale.linear()
+                                    .domain([0,100])
+                                    .range([height - padding.top - padding.bottom, 0]);
+
+//定义x轴
+                                var xAxis = d3.svg.axis()
+                                    .scale(xScale)
+                                    .orient("bottom");
+
+//定义y轴
+                                var yAxis = d3.svg.axis()
+                                    .scale(yScale)
+                                    .orient("left");
+
+//矩形之间的空白
+                                var rectPadding = 4;
+
+//添加矩形元素
+                                var rects = svg.selectAll(".MyRect")
+                                    .data(dataset)
+                                    .enter()
+                                    .append("rect")
+                                    .attr("class","MyRect")
+                                    .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+                                    .attr("x", function(d,i){
+                                        return xScale(i) + rectPadding/2;
+                                    } )
+                                    .attr("y",function(d){
+                                        return yScale(d);
+                                    })
+                                    .attr("width", xScale.rangeBand() - rectPadding )
+                                    .attr("height", function(d){
+                                        return height - padding.top - padding.bottom - yScale(d);
+                                    });
+
+//添加文字元素
+                                var texts = svg.selectAll(".MyText")
+                                    .data(dataset)
+                                    .enter()
+                                    .append("text")
+                                    .attr("class","MyText")
+                                    .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+                                    .attr("x", function(d,i){
+                                        return xScale(i) + rectPadding/2;
+                                    } )
+                                    .attr("y",function(d){
+                                        return yScale(d);
+                                    })
+                                    .attr("dx",function(){
+                                        return (xScale.rangeBand() - rectPadding)/2;
+                                    })
+                                    .attr("dy",function(d){
+                                        return 20;
+                                    })
+                                    .text(function(d){
+                                        return d;
+                                    });
+
+//添加x轴
+                                svg.append("g")
+                                    .attr("class","axis")
+                                    .attr("transform","translate(" + padding.left + "," + (height - padding.bottom) + ")")
+                                    .call(xAxis);
+
+//添加y轴
+                                svg.append("g")
+                                    .attr("class","axis")
+                                    .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+                                    .call(yAxis);
+                            });
+
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>

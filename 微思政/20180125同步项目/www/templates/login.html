@@ -1,0 +1,56 @@
+<!--以下是登录表单-->
+<div id="loginForm">
+    <div class="content">
+        <div>
+            <div class="title">
+                <div>
+                    <div class="logo">微思政</div>
+                    <div class="nav">
+                        <div class="about active">简介</div>
+                        <div class="work">工作</div>
+                        <div class="more">更多</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login_content">
+            <!--<img class="bg" src="./img/bg.jpg" alt="">-->
+            <form role="form" class="form-horizontal" id="form">
+                <div>
+                    <div>
+                        <label class="control-label" id="userName-label" for="userName">教师登录:</label>
+                    </div>
+                    <div>
+                        <input id="userName" ng-model="userName" placeholder="账号">
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <input type="password" id="password" ng-model="password" placeholder="密码">
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <span>{{loginStatus}}</span>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <button type="submit" class="" ng-click="userLogin()">登录</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#loginForm").height(parseFloat($(window).height()))
+    $("#loginForm .login_content").css('margin-top',($("#loginForm").height()-$("#loginForm .login_content").height()-75)/4)
+    window.onresize=function () {
+        $("#loginForm").height(parseFloat($(window).height()))
+        $("#loginForm .login_content").css('margin-top',($("#loginForm").height()-$("#loginForm .login_content").height()-75)/4)
+    }
+</script>
